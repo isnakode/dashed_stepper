@@ -15,6 +15,7 @@ class DashedStepper extends StatelessWidget {
     this.disabledColor,
     this.lineHeight,
     this.dotSize,
+    this.gap,
   })  : assert((icons == null || icons.length == length),
             'icons length must be the same as length'),
         assert((labels == null || labels.length == length),
@@ -29,6 +30,7 @@ class DashedStepper extends StatelessWidget {
   final Color? disabledColor;
   final double? lineHeight;
   final double? dotSize;
+  final double? gap;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class DashedStepper extends StatelessWidget {
                       child: icons![index],
                     ),
                   _HorizStep(
+                    gap: gap,
                     dotSize: dotSize,
                     height: lineHeight,
                     activeColor: indicatorColor,
@@ -99,6 +102,7 @@ class _HorizStep extends StatelessWidget {
     this.inActiveColor,
     this.height,
     this.dotSize,
+    this.gap,
   });
   final bool left;
   final bool right;
@@ -109,6 +113,7 @@ class _HorizStep extends StatelessWidget {
   final Color? inActiveColor;
   final double? height;
   final double? dotSize;
+  final double? gap;
 
   @override
   Widget build(BuildContext context) {
@@ -125,6 +130,7 @@ class _HorizStep extends StatelessWidget {
               color: activeColor,
               disabledColor: inActiveColor,
               height: height,
+              gap: gap,
             ),
             _Line(
               width: length / 2,
@@ -133,6 +139,7 @@ class _HorizStep extends StatelessWidget {
               color: activeColor,
               disabledColor: inActiveColor,
               height: height,
+              gap: gap,
             ),
           ],
         ),
@@ -156,6 +163,7 @@ class _Line extends StatelessWidget {
     this.isActive = true,
     this.roundedLeft = true,
     this.roundedRight = true,
+    this.gap,
   });
   final double width;
   final double? height;
@@ -164,6 +172,7 @@ class _Line extends StatelessWidget {
   final bool isActive;
   final bool roundedLeft;
   final bool roundedRight;
+  final double? gap;
 
   @override
   Widget build(BuildContext context) {
@@ -184,8 +193,8 @@ class _Line extends StatelessWidget {
         children: List.generate(
           3,
           (index) => Container(
-            margin: const EdgeInsets.only(left: 2),
-            width: width / 3 - 2,
+            margin: EdgeInsets.only(left: gap ?? 2),
+            width: width / 3 - (gap ?? 2),
             height: height ?? 4,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.horizontal(
