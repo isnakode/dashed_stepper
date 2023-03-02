@@ -6,16 +6,29 @@ class DashedStepper extends StatelessWidget {
   const DashedStepper({
     super.key,
     this.length = 3,
-    this.currentIndex = 0,
-    this.onChanged,
-    this.topChildren,
-    this.quotes,
-  });
+    this.step = 0,
+    this.icons,
+    this.labels,
+    this.height,
+    this.labelColor,
+    this.indicatorColor,
+    this.disabledColor,
+    this.lineHeight,
+    this.dotSize,
+  })  : assert((icons == null || icons.length == length),
+            'icons length must be the same as length'),
+        assert((labels == null || labels.length == length),
+            'labels length must be the same as length');
   final int length;
-  final int currentIndex;
-  final ValueChanged<int>? onChanged;
-  final List<Widget>? topChildren;
-  final List<String>? quotes;
+  final int step;
+  final List<Widget>? icons;
+  final List<String>? labels;
+  final double? height;
+  final Color? labelColor;
+  final Color? indicatorColor;
+  final Color? disabledColor;
+  final double? lineHeight;
+  final double? dotSize;
 
   @override
   Widget build(BuildContext context) {
@@ -29,35 +42,39 @@ class DashedStepper extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (topChildren != null)
+                  if (icons != null)
                     Container(
-                      height: 50,
+                      height: height ?? 40,
                       alignment: Alignment.topCenter,
-                      child: topChildren![index],
+                      child: icons![index],
                     ),
-                  HorizStep(
+                  _HorizStep(
+                    dotSize: dotSize,
+                    height: lineHeight,
+                    activeColor: indicatorColor,
+                    inActiveColor: disabledColor,
                     length: size.maxWidth / length,
-                    left: index < currentIndex,
-                    right: index < currentIndex - 1,
+                    left: index < step,
+                    right: index < step - 1,
                     roundedLeft: index == 0
                         ? true
-                        : index < currentIndex
+                        : index < step
                             ? false
                             : true,
                     roundedRight: index == length - 1
                         ? true
-                        : index < currentIndex - 1
+                        : index < step - 1
                             ? false
                             : true,
                   ),
                   const SizedBox(height: 8),
-                  if (quotes != null)
+                  if (labels != null)
                     Text(
-                      quotes![index],
+                      labels![index],
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.grey[300],
+                        color: labelColor ?? Colors.grey,
                       ),
                     )
                 ],
@@ -70,20 +87,27 @@ class DashedStepper extends StatelessWidget {
   }
 }
 
-class HorizStep extends StatelessWidget {
-  const HorizStep({
-    super.key,
+class _HorizStep extends StatelessWidget {
+  const _HorizStep({
     this.left = false,
     this.right = false,
     this.length = 100,
     this.roundedLeft = true,
     this.roundedRight = true,
+    this.activeColor,
+    this.inActiveColor,
+    this.height,
+    this.dotSize,
   });
   final bool left;
   final bool right;
   final double length;
   final bool roundedLeft;
   final bool roundedRight;
+  final Color? activeColor;
+  final Color? inActiveColor;
+  final double? height;
+  final double? dotSize;
 
   @override
   Widget build(BuildContext context) {
@@ -93,40 +117,47 @@ class HorizStep extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Line(
+            _Line(
               width: length / 2,
               isActive: left,
               roundedLeft: roundedLeft,
+              color: activeColor,
+              disabledColor: inActiveColor,
+              height: height,
             ),
-            Line(
+            _Line(
               width: length / 2,
               isActive: right,
               roundedRight: roundedRight,
+              color: activeColor,
+              disabledColor: inActiveColor,
+              height: height,
             ),
           ],
         ),
-        Dot(
-          size: 20,
-          color: left ? Colors.blue : Colors.grey[300],
+        _Dot(
+          size: dotSize ?? 20,
+          color: left
+              ? activeColor ?? Colors.blue
+              : inActiveColor ?? Colors.grey[300],
         ),
       ],
     );
   }
 }
 
-class Line extends StatelessWidget {
-  const Line({
-    super.key,
+class _Line extends StatelessWidget {
+  const _Line({
     this.width = 10,
-    this.height = 4,
     this.color,
+    this.height,
     this.disabledColor,
     this.isActive = true,
     this.roundedLeft = true,
     this.roundedRight = true,
   });
   final double width;
-  final double height;
+  final double? height;
   final Color? color;
   final Color? disabledColor;
   final bool isActive;
@@ -138,7 +169,7 @@ class Line extends StatelessWidget {
     if (isActive) {
       return Container(
         width: width,
-        height: height,
+        height: height ?? 4,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.horizontal(
             left: roundedLeft ? const Radius.circular(50) : Radius.zero,
@@ -154,7 +185,7 @@ class Line extends StatelessWidget {
           (index) => Container(
             margin: const EdgeInsets.only(left: 2),
             width: width / 3 - 2,
-            height: height,
+            height: height ?? 4,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.horizontal(
                 left: roundedLeft ? const Radius.circular(50) : Radius.zero,
@@ -169,9 +200,8 @@ class Line extends StatelessWidget {
   }
 }
 
-class Dot extends StatelessWidget {
-  const Dot({
-    super.key,
+class _Dot extends StatelessWidget {
+  const _Dot({
     this.size = 5,
     this.color,
   });

@@ -10,30 +10,69 @@ For general information about developing packages, see the Dart guide for
 and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+![stepper image](/image/stepper.jpeg)
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+add dashed_stepper in your pubspec.yaml dependency
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
 ```dart
-const like = 'sample';
+Column(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: [
+        DashedStepper(
+            labelColor: Colors.black,
+            indicatorColor: Colors.green,
+            length: 7,
+            step: 2,
+            labels: const [
+                'mon',
+                'tue',
+                'wed',
+                'thu',
+                'fri',
+                'sat',
+                'sun',
+            ],
+        ),
+        DashedStepper(
+            labelColor: Colors.black,
+            indicatorColor: Colors.red[300],
+            length: 5,
+            dotSize: 25,
+            lineHeight: 6,
+            step: 2,
+        ),
+        DashedStepper(
+            height: 30,
+            icons: const [
+                Icon(Icons.home),
+                Icon(Icons.airplane_ticket),
+                Icon(Icons.airplanemode_active),
+                Icon(Icons.check),
+            ],
+            labels: const [
+                'home',
+                'ticket',
+                'flight',
+                'done',
+            ],
+            length: 4,
+            step: 2,
+        ),
+        DashedStepper(
+            height: 50,
+            icons: const [
+                Icon(Icons.sunny,size: 40),
+                Icon(Icons.dark_mode,size: 40),
+            ],
+            length: 2,
+            step: 3,
+        ),
+    ],
+),
 ```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
