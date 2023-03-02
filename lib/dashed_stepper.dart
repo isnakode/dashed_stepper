@@ -10,7 +10,7 @@ class DashedStepper extends StatelessWidget {
     this.icons,
     this.labels,
     this.height,
-    this.labelColor,
+    this.labelStyle,
     this.indicatorColor,
     this.disabledColor,
     this.lineHeight,
@@ -24,7 +24,7 @@ class DashedStepper extends StatelessWidget {
   final List<Widget>? icons;
   final List<String>? labels;
   final double? height;
-  final Color? labelColor;
+  final TextStyle? labelStyle;
   final Color? indicatorColor;
   final Color? disabledColor;
   final double? lineHeight;
@@ -72,10 +72,11 @@ class DashedStepper extends StatelessWidget {
                     Text(
                       labels![index],
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: labelColor ?? Colors.grey,
-                      ),
+                      style: labelStyle ??
+                          const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
                     )
                 ],
               ),
