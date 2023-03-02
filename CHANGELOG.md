@@ -9,3 +9,7 @@
 ## 0.0.3
 
 * add gap for dash line
+
+## 0.0.4
+
+* fix image not showing on readme
