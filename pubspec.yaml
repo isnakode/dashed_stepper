@@ -1,6 +1,7 @@
 name: dashed_stepper
 description: A new Flutter package project.
 version: 0.0.1
+repository: https://github.com/isnausaha/dashed_stepper
 homepage:
 
 environment:
