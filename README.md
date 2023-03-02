@@ -12,7 +12,7 @@ and the Flutter guide for
 -->
 ## Features
 
-![stepper image](/image/stepper.jpeg)
+<img src="https://raw.githubusercontent.com/isnausaha/dashed_stepper/master/image/stepper.jpeg" width="300px"><br>
 
 ## Getting started
 
